@@ -37,6 +37,7 @@ func (a *App) Initialize() {
 
 func (a *App) setRouters() {
 	a.Get("/translations", a.handleRequest(handler.GetAllTranslations))
+	a.Get("/translations/{translation_id:[0-9]}/books", a.handleRequest(handler.GetAllBooks))
 }
 
 func (a *App) Get(path string, f func(w http.ResponseWriter, r *http.Request)) {
