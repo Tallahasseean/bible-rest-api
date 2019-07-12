@@ -2,7 +2,7 @@ package model
 
 type Translation struct {
 	Id            int    `gorm:"primary_key" json:"id"`
-	Table         string `gorm:"table" json:"table"`
+	Table         string `gorm:"table" json:"-"`
 	Abbreviation  string `gorm:"abbreviation" json:"abbreviation"`
 	Language      string `gorm:"language" json:"language"`
 	Version       string `gorm:"version" json:"translation"`
