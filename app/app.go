@@ -27,7 +27,7 @@ func (a *App) Initialize() {
 }
 
 func (a *App) setRouters() {
-	a.Get("/versions", a.handleRequest(handler.GetAllVersions))
+	a.Get("/translations", a.handleRequest(handler.GetAllTranslations))
 }
 
 func (a *App) Get(path string, f func(w http.ResponseWriter, r *http.Request)) {

@@ -1,11 +1,11 @@
 package model
 
-type Version struct {
+type Translation struct {
 	Id            int    `gorm:"primary_key" json:"id"`
 	Table         string `gorm:"table" json:"table"`
 	Abbreviation  string `gorm:"abbreviation" json:"abbreviation"`
 	Language      string `gorm:"language" json:"language"`
-	Version       string `gorm:"version" json:"version"`
+	Version       string `gorm:"version" json:"translation"`
 	InfoText      string `gorm:"info_text" json:"info_text"`
 	InfoURL       string `gorm:"info_url" json:"info_url"`
 	Publisher     string `gorm:"publisher" json:"publisher"`
@@ -13,6 +13,6 @@ type Version struct {
 	CopyrightInfo string `gorm:"copyright_info" json:"copyright_info"`
 }
 
-func (Version) TableName() string {
+func (Translation) TableName() string {
 	return "bible_version_key"
 }
