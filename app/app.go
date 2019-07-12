@@ -4,18 +4,27 @@ import (
 	"bible/app/handler"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/gorilla/mux"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
+	"github.com/joho/godotenv"
 )
 
 type App struct {
-	Router *mux.Router
-	DB     *gorm.DB
+	Environment string
+	Router      *mux.Router
+	DB          *gorm.DB
 }
 
 func (a *App) Initialize() {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+	a.Environment = os.Getenv("ENVIRONMENT")
+
 	db, err := gorm.Open("sqlite3", "bible-sqlite.db")
 	if err != nil {
 		panic("Failed to connect database")
