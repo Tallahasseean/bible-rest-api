@@ -81,11 +81,18 @@ func GetVerse(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 	}
 	rows, _ := db.Raw("SELECT v,t FROM "+table_name+" WHERE b = ? AND c = ? AND v >= ? AND v <= ?", book_id, chapter, verse, verse_upper).Rows()
 	defer rows.Close()
+
 	var result []model.Verse
+	count := 0
 	for rows.Next() {
 		var verse model.Verse
 		db.ScanRows(rows, &verse)
 		result = append(result, verse)
+		count++
+	}
+
+	if 0 == count {
+		respondError(w, http.StatusBadRequest, "No verses were found. Please check your request and try again.")
 	}
 
 	respondJSON(w, http.StatusOK, result)
