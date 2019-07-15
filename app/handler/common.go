@@ -1,9 +1,12 @@
 package handler
 
 import (
+	"bible/app/model"
 	"encoding/json"
 	"net/http"
 )
+
+var translations_map = make(map[string][]model.Translation)
 
 func respondJSON(w http.ResponseWriter, status int, payload interface{}) {
 	response, err := json.Marshal(payload)
