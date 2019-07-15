@@ -10,8 +10,11 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
+// Slice of verse slices to store in memory, reducing multiple lookups. This
+// only stores verse numbers; not the text.
 var verses_map = make(map[string][]model.Verse)
 
+// Returns a list of numbers for all verses in the specified book.
 func GetAllVerses(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 	var translation model.Translation
 	vars := mux.Vars(r)
@@ -40,6 +43,7 @@ func GetAllVerses(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 	respondJSON(w, http.StatusOK, verses_map[translation_id+book_id+chapter])
 }
 
+// Returns the number and text for the specified verse(s).
 func GetVerse(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 	var translation model.Translation
 	vars := mux.Vars(r)

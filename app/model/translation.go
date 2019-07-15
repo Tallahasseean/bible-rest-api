@@ -1,5 +1,6 @@
 package model
 
+// Represents a single Bible translation
 type Translation struct {
 	Id            int    `gorm:"primary_key" json:"id"`
 	Table         string `gorm:"table" json:"-"`
@@ -13,6 +14,7 @@ type Translation struct {
 	CopyrightInfo string `gorm:"copyright_info" json:"copyright_info"`
 }
 
+// Specify the DB table for GORM
 func (Translation) TableName() string {
 	return "bible_version_key"
 }

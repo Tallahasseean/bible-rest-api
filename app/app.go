@@ -12,12 +12,14 @@ import (
 	"github.com/joho/godotenv"
 )
 
+// Custom data type represents the core components of the application
 type App struct {
 	Environment string
 	Router      *mux.Router
 	DB          *gorm.DB
 }
 
+// Initialize the core parts of the application (env, DB, and router).
 func (a *App) Initialize() {
 	err := godotenv.Load()
 	if err != nil {
@@ -35,6 +37,7 @@ func (a *App) Initialize() {
 	a.setRouters()
 }
 
+// Decalre all routes and their corresponding handlers.
 func (a *App) setRouters() {
 	a.Get("/translations", a.handleRequest(handler.GetAllTranslations))
 	a.Get("/translations/{translation_id:[0-9]}/books", a.handleRequest(handler.GetAllBooks))
@@ -43,16 +46,20 @@ func (a *App) setRouters() {
 	a.Get("/translations/{translation_id:[0-9]}/books/{book_id:[0-9]+}/chapters/{chapter:[0-9]+}/verses/{verse:[0-9]+-?[0-9]*}", a.handleRequest(handler.GetVerse))
 }
 
+// Convenience wrapper for GET requests.
 func (a *App) Get(path string, f func(w http.ResponseWriter, r *http.Request)) {
 	a.Router.HandleFunc(path, f).Methods("GET")
 }
 
+// Run the server.
 func (a *App) Run(host string) {
 	log.Fatal(http.ListenAndServe(host, a.Router))
 }
 
+// Custom type for a basic request handler function.
 type RequestHandlerFunction func(db *gorm.DB, w http.ResponseWriter, r *http.Request)
 
+// Convenience wrapper for request handlers.
 func (a *App) handleRequest(handler RequestHandlerFunction) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		handler(a.DB, w, r)

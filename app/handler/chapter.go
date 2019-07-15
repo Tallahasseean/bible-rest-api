@@ -8,8 +8,10 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
+// Slice of chatper slices to store in memory, reducing multiple lookups.
 var chapters_map = make(map[string][]model.Chapter)
 
+// Returns the number for all chapters in a specified book.
 func GetAllChapters(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	translation_id, _ := vars["translation_id"]

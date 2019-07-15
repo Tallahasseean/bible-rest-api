@@ -1,3 +1,5 @@
+// The handler package provide handler functions for HTTP requests. All requests
+// respond with JSON data types.
 package handler
 
 import (
@@ -8,8 +10,10 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
+// Map of book slices to store in memory, reducing multiple lookups.
 var books_map = make(map[string][]model.Book)
 
+// Returns the name of all books in the specified translation.
 func GetAllBooks(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	translation_id, _ := vars["translation_id"]
