@@ -35,6 +35,7 @@ func (a *App) Initialize() {
 	a.DB = db
 	a.Router = mux.NewRouter()
 	a.setRouters()
+	a.Router.NotFoundHandler = http.HandlerFunc(NotFound)
 }
 
 // Decalre all routes and their corresponding handlers.
@@ -64,4 +65,11 @@ func (a *App) handleRequest(handler RequestHandlerFunction) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		handler(a.DB, w, r)
 	}
+}
+
+func NotFound(w http.ResponseWriter, r *http.Request) {
+	response := ("{\"error\":\"Resource not found\"}")
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusNotFound)
+	w.Write([]byte(response))
 }
